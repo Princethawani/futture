@@ -1,0 +1,14 @@
+<% const body = `
+<section class="card">
+  <h2>Ask GraceAI</h2>
+  <form method="POST" action="/test">
+    <label>Enter a test question:</label>
+    <input type="text" name="question" placeholder="e.g. What are your pricing options?" required>
+    <button type="submit" class="btn">Send</button>
+  </form>
+
+  <!-- ${response ? `<hr><h3>Response</h3><pre>${JSON.stringify(response, null, 2)}</pre>` : ''} -->
+</section>
+`; %>
+
+<%- include('layout', { title: 'Test GraceAI', body: body }) %>
