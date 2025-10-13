@@ -1,7 +1,9 @@
 // src/routes/tidioWebhook.js
 
-const graceai = require('../services/graceai');
+// const graceai = require('../services/graceai');
+const openai = require('../services/openapi');
 const tidio = require('../services/tidio');
+
 
 exports.handle = async (req, res) => {
   try {
