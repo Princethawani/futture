@@ -30,4 +30,18 @@ TIDIO/
     ├── package-lock.json
     └── package.json
     └── README.md
+
 ```
+## Build & Run
+
+```bash
+# Install dependencies
+yarn install
+
+# Run in development mode
+node src/index.js
+
+Development & Demo - http://localhost:9000
+
+# Run tests
+ npm test:

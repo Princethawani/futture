@@ -1,5 +1,5 @@
 const axios = require('axios');
-const base = process.env.TIDIO_API_BASE || 'https://api.tidio.com';
+const base = process.env.TIDIO_API_BASE || 'https://api.tidkio.com';
 const token = process.env.TIDIO_API_KEY;
 
 exports.sendMessage = async (conversationId, text) => {

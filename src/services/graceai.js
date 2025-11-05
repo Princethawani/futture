@@ -5,10 +5,19 @@ exports.ask = async ({ question, user }) => {
     const url = process.env.GRACEAI_API_URL;
     const apiKey = process.env.GRACEAI_API_KEY;
 
-    const response = await axios.post(url, { question, user }, {
-      headers: { 'Authorization': `Bearer ${apiKey}` },
-      timeout: 5000
-    });
+    const response = await axios.post(url, {
+      model: "gpt-4o-mini",
+      messages: [
+        { role: "system", content: "You are GraceAI, a helpful assistant." },
+        { role: "user", content: question }
+      ]
+      }, {
+      headers: {
+        'Authorization': `Bearer ${apiKey}`,
+        'Content-Type': 'application/json'
+      }
+  });
+
 
     return response.data;
   } catch (err) {
