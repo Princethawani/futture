@@ -52,7 +52,8 @@ router.post('/', async (req, res) => {
     }
 
     // Register user in GoHighLevel
-    const ghlResponse = await axios.post('http://localhost:3000/api/users/', { name, email, company });
+    // https://ryu.futuremultiverse.com/gohighlevel/api/ghl-register
+    const ghlResponse = await axios.post('https://ryu.futuremultiverse.com/gohighlevel/api/ghl-register', { name, email, company });
     const ghlUser = ghlResponse.data.ghlUser || ghlResponse.data.user || { name, email, company };
 
     // Respond immediately

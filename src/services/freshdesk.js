@@ -10,7 +10,7 @@ exports.hitEndpoint = async () => {
         auth: { username: process.env.FRESHDESK_API_KEY, password: 'X' }
       }
     );
-    console.log('Freshdesk endpoint hit successfully');
+    console.log('Frshdesk Ticket has been created successfully');
     return resp.data;
   } catch (err) {
     console.error('Freshdesk hit error:', err.response?.data || err.message);
