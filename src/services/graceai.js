@@ -2,8 +2,8 @@ const axios = require('axios');
 
 exports.ask = async ({ question, user }) => {
   try {
-    const url = process.env.GRACEAI_API_URL;
-    const apiKey = process.env.GRACEAI_API_KEY;
+    const url = process.env.OPENAI_API_URL;
+    const apiKey = process.env.OPENAI_API_KEY;
 
     const response = await axios.post(url, {
       model: "gpt-4o-mini",
