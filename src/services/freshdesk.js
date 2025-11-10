@@ -1,16 +1,23 @@
-// src/services/freshdesk.js
 const axios = require('axios');
 
-exports.hitEndpoint = async () => {
+exports.createTicket = async (email) => {
+  if (!email) {
+    console.error('Email is required to create a Freshdesk ticket');
+    return null;
+  }
+
   try {
     const resp = await axios.post(
-      'https://yourcompany.freshdesk.com/api/v2/tickets', 
-      {}, // empty payload
+      'https://ryu.futuremultiverse.com/api/freshdesk/event/create_ticket',
+      { email_address: email },
       {
-        auth: { username: process.env.FRESHDESK_API_KEY, password: 'X' }
+        headers: {
+          'Content-Type': 'application/json'
+        }
       }
     );
-    console.log('Frshdesk Ticket has been created successfully');
+
+    console.log('Freshdesk ticket created successfully for', email);
     return resp.data;
   } catch (err) {
     console.error('Freshdesk hit error:', err.response?.data || err.message);
