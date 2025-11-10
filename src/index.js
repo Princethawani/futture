@@ -12,7 +12,7 @@ const app = express();
 
 // Enable CORS (allow requests from your frontend port)
 app.use(cors({
-  origin: ['http://localhost:1901', 'http://192.168.1.167:1901'],
+  origin: ['*'],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
