@@ -13,7 +13,7 @@
 //     }
 
 //     // Send only the fields needed
-//     const ghlResponse = await axios.post('http://localhost:3000/api/users/', { name, email, company });
+//     const ghlResponse = await axios.post('https://ryu.futuremultiverse.com/api/ghl-register', { name, email, company });
 
 //     const ghlUser = ghlResponse.data.ghlUser || ghlResponse.data.user || { name, email, company };
 
