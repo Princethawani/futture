@@ -12,7 +12,7 @@ const app = express();
 
 // Enable CORS (allow requests from your frontend port)
 app.use(cors({
-  origin: ['*'],
+  origin: ['https://lunaprisemetaverse.ai/'],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
