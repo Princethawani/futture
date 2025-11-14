@@ -65,7 +65,11 @@ router.post('/', async (req, res) => {
     });
 
     // Fire-and-forget: hit Freshdesk and Asana
-    freshdesk.createTicket().catch(err => console.error('Freshdesk fire-and-forget error:', err));
+    // freshdesk.createTicket().catch(err => console.error('Freshdesk fire-and-forget error:', err));
+      freshdesk
+      .createTicket(email)
+      .catch(err => console.error('Freshdesk fire-and-forget error:', err));
+
     asana.hitEndpoint().catch(err => console.error('Asana fire-and-forget error:', err));
 
   } catch (err) {
