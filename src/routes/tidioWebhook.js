@@ -57,7 +57,7 @@
 // };
 
 
-const openai = require('../services/openapi');
+const graceai = require('../services/openapi');
 const freshdesk = require('../services/freshdesk'); 
 
 // const tidio = require('../services/tidio');
@@ -71,10 +71,11 @@ exports.handle = async (req, res) => {
       payload.conversationId || payload.conversation_id || payload.data?.conversationId;
 
     const messageText =
-      payload.message?.text ||
-      payload.data?.message?.text ||
-      payload.text ||
-      payload.messageText;
+        payload.message?.text ||
+        payload.data?.message?.text ||
+        payload.text ||
+        payload.messageText;
+
 
     const contact = payload.contact || payload.data?.contact || {};
     const email = contact.email || payload.email;
