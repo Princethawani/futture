@@ -74,6 +74,7 @@ exports.handle = async (req, res) => {
         payload.message?.text ||
         payload.data?.message?.text ||
         payload.text ||
+        (typeof payload.message === "string" ? payload.message : null) ||
         payload.messageText;
 
 
@@ -120,4 +121,6 @@ exports.handle = async (req, res) => {
     return res.status(500).json({ error: 'internal_error' });
   }
 };
+
+
 
