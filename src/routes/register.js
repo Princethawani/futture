@@ -61,7 +61,7 @@ const asana = require('../services/asana')
 
 router.post('/', async (req, res) => {
   try {
-    const { name, email, company, platform } = req.body;
+    const { name, email, company, platform, referrer } = req.body;
 
     if (!name || !email) {
       return res.status(400).json({ success: false, message: 'Name and email are required' });
@@ -81,7 +81,8 @@ router.post('/', async (req, res) => {
       name, 
       email, 
       company,
-      platform
+      platform,
+      referrer
 
     };
 
@@ -94,6 +95,7 @@ router.post('/', async (req, res) => {
         email: ghlUser.email,
         company: ghlUser.company || '',
         platform: ghlUser.platform,
+        referrer: ghlUser.referrer || ''
       },
       token: ghlResponse.data.token || Buffer.from(email).toString('base64')
     });
@@ -119,4 +121,3 @@ router.post('/', async (req, res) => {
 
 
 module.exports = router
-
