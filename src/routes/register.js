@@ -52,72 +52,72 @@
 
 // module.exports = router
 
-// routes/register.js
-const express = require('express')
-const router = express.Router()
-const axios = require('axios')
-const freshdesk = require('../services/freshdesk')
-const asana = require('../services/asana')
+  // routes/register.js
+  const express = require('express')
+  const router = express.Router()
+  const axios = require('axios')
+  const freshdesk = require('../services/freshdesk')
+  const asana = require('../services/asana')
 
-router.post('/', async (req, res) => {
-  try {
-    const { name, email, company, platform, referrer } = req.body;
+  router.post('/', async (req, res) => {
+    try {
+      const { name, email, company_name, platform, referrer } = req.body;
 
-    if (!name || !email) {
-      return res.status(400).json({ success: false, message: 'Name and email are required' });
+      if (!name || !email) {
+        return res.status(400).json({ success: false, message: 'Name and email are required' });
+      }
+
+      if (!platform) {
+        return res.status(400).json({ success: false, message: 'Platform is required' });
+      }
+
+      // Register user in GoHighLevel
+      const ghlResponse = await axios.post(
+        'https://ryu.futuremultiverse.com/api/ghl-register',
+        { name, email, company_name, platform, referrer }   
+      );
+
+      const ghlUser = ghlResponse.data.ghlUser || ghlResponse.data.user || { 
+        name, 
+        email, 
+        company_name,
+        platform,
+        referrer
+
+      };
+
+      // Respond immediately to frontend
+      res.status(201).json({
+        success: true,
+        message: 'User registered successfully',
+        user: {
+          name: ghlUser.name,
+          email: ghlUser.email,
+          company_name: ghlUser.company_name || '',
+          platform: ghlUser.platform,
+          referrer: ghlUser.referrer || ''
+        },
+        token: ghlResponse.data.token || Buffer.from(email).toString('base64')
+      });
+
+      
+      freshdesk.createTicket(email).catch(err =>
+        console.error('Error creating freshdesk ticket:', err)
+      );
+
+      asana.hitEndpoint().catch(err =>
+        console.error('Error creating asan task:', err)
+      );
+
+    } catch (err) {
+      console.error('Registration error:', err.toJSON ? err.toJSON() : err);
+      res.status(500).json({
+        success: false,
+        message: 'Failed to register user',
+        error: err.response?.data || err.message
+      });
     }
-
-    if (!platform) {
-      return res.status(400).json({ success: false, message: 'Platform is required' });
-    }
-
-    // Register user in GoHighLevel
-    const ghlResponse = await axios.post(
-      'https://ryu.futuremultiverse.com/api/ghl-register',
-      { name, email, company, platform }   
-    );
-
-    const ghlUser = ghlResponse.data.ghlUser || ghlResponse.data.user || { 
-      name, 
-      email, 
-      company,
-      platform,
-      referrer
-
-    };
-
-    // Respond immediately to frontend
-    res.status(201).json({
-      success: true,
-      message: 'User registered successfully',
-      user: {
-        name: ghlUser.name,
-        email: ghlUser.email,
-        company: ghlUser.company || '',
-        platform: ghlUser.platform,
-        referrer: ghlUser.referrer || ''
-      },
-      token: ghlResponse.data.token || Buffer.from(email).toString('base64')
-    });
-
-    
-    freshdesk.createTicket(email).catch(err =>
-      console.error('Error creating freshdesk ticket:', err)
-    );
-
-    asana.hitEndpoint().catch(err =>
-      console.error('Error creating asan task:', err)
-    );
-
-  } catch (err) {
-    console.error('Registration error:', err.toJSON ? err.toJSON() : err);
-    res.status(500).json({
-      success: false,
-      message: 'Failed to register user',
-      error: err.response?.data || err.message
-    });
-  }
-});
+  });
 
 
-module.exports = router
+  module.exports = router
