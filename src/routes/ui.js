@@ -42,7 +42,6 @@
 //   }
 // });
 
-// module.exports = router;
 const express = require('express');
 const router = express.Router();
 const graceai = require('../services/graceai');
@@ -56,8 +55,16 @@ const upload = multer({ storage: multer.memoryStorage() });
 // --------------------
 router.post('/api/test', upload.single('file'), async (req, res) => {
   try {
-    const question = req.body?.question || "";
+    const rawQuestion = req.body?.question || "";
     const file = req.file || null;
+
+    // If the frontend somehow sends an empty question with a file,
+    // we still generate a sensible default instruction.
+    const question =
+      rawQuestion ||
+      (file
+        ? `Please analyze the attached file "${file.originalname}" and summarize the important information.`
+        : "");
 
     console.log("Received Question:", question);
 
@@ -69,29 +76,27 @@ router.post('/api/test', upload.single('file'), async (req, res) => {
       });
     }
 
-    // -----------------------------
-    // Build a GraceAI-compatible request
-    // -----------------------------
     const gracePayload = {
       question,
       user: { email: "test@example.com" },
-      files: file ? [
-        {
-          name: file.originalname,
-          buffer: file.buffer,       // <-- the actual file content
-          mimeType: file.mimetype
-        }
-      ] : []
+      files: file
+        ? [
+            {
+              name: file.originalname,
+              buffer: file.buffer,
+              mimeType: file.mimetype,
+            },
+          ]
+        : [],
     };
 
-    // -----------------------------
-    // CALL GRACEAI WITH FILE + TEXT
-    // -----------------------------
+    console.log("Sending to GraceAI:", {
+      question: gracePayload.question,
+      filesCount: gracePayload.files.length,
+    });
+
     const response = await graceai.ask(gracePayload);
 
-    // -----------------------------
-    // Extract reply safely
-    // -----------------------------
     let reply = "";
 
     if (response?.choices?.[0]?.message?.content) {
@@ -104,15 +109,14 @@ router.post('/api/test', upload.single('file'), async (req, res) => {
       reply = JSON.stringify(response);
     }
 
-    // Send back to frontend
     res.json({ reply });
   } catch (err) {
     console.error("GraceAI error:", err.stack || err);
     res.status(500).json({
-      reply: "Unable to reach the chat server. Please try again later."
+      reply: "Unable to reach the chat server. Please try again later.",
     });
   }
 });
 
-module.exports = router;
 
+module.exports = router;
