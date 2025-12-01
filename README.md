@@ -1,14 +1,18 @@
-# TIDIO Project Folder Structure
+# Ryu Widget Backend Project Folder Structure
 
 ```
 TIDIO/
 └──graceflow-
     ├── node_modules/
     ├── src/
-    │   ├── public/
+    │   ├── docs/
+    |   |   └── registration.md 
     │   │
     │   ├── routes/
     │   │   ├── tidioWebhook.js
+    |   |   ├── me.js
+    |   |   ├── register.js
+    |   |   ├── history.js
     │   │   └── ui.js
     │   │
     │   ├── services/
@@ -16,17 +20,22 @@ TIDIO/
     │   │   ├── freshdesk.js
     │   │   ├── ghl.js
     │   │   ├── graceai.js
+    |   |   ├── openapi.js
+    |   |   ├── ryuChat.js
     │   │   └── tidio.js
     │   │
-    │   └── views/
-    │   |    ├── dashboard.ejs
-    │   |    ├── layout.ejs
-    │   |    └── test-chat.ejs
+    │   └── tests/
+    │   |    ├── integration/
+    |   |    └── unit/
+    │   |   
+    │   |   
     |   |
     │   ├── config.js
+    |   ├── db.js
     │   └── index.js
     │
     ├── .env
+    ├── .example.env
     ├── package-lock.json
     └── package.json
     └── README.md
