@@ -7,6 +7,7 @@ const cors = require('cors');
 const tidioWebhook = require('./routes/tidioWebhook');
 const uiRoutes = require('./routes/ui');
 const registerRoute = require('./routes/register'); 
+const chatHistory = require('./routes/history');
 
 const app = express();
 
@@ -33,6 +34,8 @@ app.use('/', uiRoutes);
 // Registration
 app.use('/api/register', registerRoute);
 
+
+app.use('/', chatHistory)
 // Health check
 app.get('/health', (_, res) => res.json({ ok: true }));
 
