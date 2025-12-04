@@ -34,7 +34,9 @@ exports.ask = async ({ question, user, files = [] }) => {
           name.endsWith('.log') ||
           name.endsWith('.xml') ||
           name.endsWith('.html') ||
-          name.endsWith('.pdf') 
+          name.endsWith('.pdf') ||
+          name.endsWith('.jpg') ||
+          name.endsWith('.jpeg')
         ));
 
       if (isTextLike) {
@@ -110,4 +112,3 @@ exports.ask = async ({ question, user, files = [] }) => {
     throw err;
   }
 };
-
